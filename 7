@@ -1,0 +1,72 @@
+7a:
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Unregistration Form</title>
+</head>
+<body>
+
+    <h2>Unregistration Form</h2>
+    <form name="unregistrationForm">
+        Email Address 1: <input type="text" name="email1" required><br>
+        Email Address 2: <input type="text" name="email2" required><br>
+        <button type="submit">Unregister</button>
+    </form>
+
+    <script>
+        document.forms.unregistrationForm.addEventListener("submit", function(event) {
+            var email1 = document.forms.unregistrationForm.email1.value;
+            var email2 = document.forms.unregistrationForm.email2.value;
+
+            var email_reg = new RegExp("^[a-zA-Z0-9]+@[a-zA-Z0-9]+\\.[a-zA-Z]{3,}$");
+
+            if (email1 !== email2) {
+                alert("Email addresses do not match");
+                event.preventDefault();
+                return;
+            }
+
+            if (!email_reg.test(email1)) {
+                alert("Invalid email address format");
+                event.preventDefault();
+                return;
+            }
+        });
+    </script>
+
+</body>
+</html>
+
+7b:
+import javax.servlet.*;
+import javax.servlet.http.*;
+import javax.servlet.annotation.*;
+import java.util.*;
+import java.io.*;
+import java.sql.*;
+
+@WebServlet("/unregister")
+public class Seven extends HttpServlet {
+  public void doPost(HttpServletRequest req, HttpServletResponse res) throws IOException, ServletException {
+    PrintWriter out = null;
+    try {
+      res.setContentType("text/html");
+      out = res.getWriter();
+      DBConnection.loadDriver();
+      Connection con = DBConnection.getConnection();
+
+      String email = (String)req.getParameter("email");
+      PreparedStatement ps = con.prepareStatement("DELETE FROM lab_students WHERE emailid=?");
+      ps.setString(1, email);
+
+      int n = ps.executeUpdate();
+      if(n >= 0) {
+        out.println("Successfully Unregistered: " + email);
+      }
+    } catch(Exception e) {
+      out.println("Exception: " + e.getMessage());
+    }
+  }
+}
