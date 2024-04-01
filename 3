@@ -1,24 +1,27 @@
 3a:
 <!DOCTYPE html>
-<html>
-    <head>
-        <title>
-            Radio button
-        </title>
-    </head>
-    <body>
-        <input type="radio" name="color" id="red" value="red" required> red
-        <input type="radio" name="color" id="green" value="green" required> green
-        <input type="radio" name="color" id="blue" value="blue" required> blue
-        <button onclick="changeBackgroundColor()">Change Color</button>
-        <script>
-            function changeBackgroundColor()
-            {
-                color = document.querySelector("input[name='color']:checked").value;
-                document.body.style.backgroundColor = color;
-            }
-        </script>
-    </body>
+<html lang="en">
+    
+<head>
+    <title>Document</title>
+</head>
+
+<body>
+    <form>
+    Red: <input type="radio" name="color" id="red" value="red">
+    Blue: <input type="radio" name="color" id="blue" value="blue">
+    Green: <input type="radio" name="color" id="green" value="green"><br>
+    <button type="button" onclick="changeColor()">Change backgroundColor</button>
+    </form>
+</body>
+
+<script>
+    function changeColor(){
+        var bgcolor = document.querySelector("input[name=color]:checked").value;
+        document.body.style.backgroundColor = bgcolor;
+    }
+</script>
+
 </html>
 
 3b:
