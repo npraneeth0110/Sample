@@ -1,0 +1,81 @@
+6a:
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <form name="regdform" onsubmit="formValidate()">
+        Username:<input type="text" name="username" id="username" required>
+        <br>
+        Email:<input type="text" name="email" id="email" required>
+        <br>
+        <input type="submit" value="register">
+    </form>
+    <script>
+    function formValidate(){
+        var valid = false;
+        var username = document.regdform.username.value;
+        var username_reg = new RegExp("^[A-Z][a-z]{6,}$");
+    
+        var email = document.regdform.email.value;
+        var email_reg = new RegExp("^[a-zA-Z0-9]+@[a-zA-z0-9]+\\.[a-zA-z]{3,}$")
+        
+        if(username_reg.test(username)){
+            valid = true;
+        }
+        else{
+            window.alert("hello mister enter correctly")
+        }
+    
+        if(email_reg.test(email)){
+            valid= true;
+        }
+        else{
+            window.alert("HEroooooooo");
+        }
+        return valid;
+    }
+</script>
+</body>
+</html>
+
+6b:
+import javax.servlet.*;
+import javax.servlet.http.*;
+import javax.servlet.annotation.*;
+import java.util.*;
+import java.io.*;
+import java.sql.*;
+
+@WebServlet("/insert")
+public class Six extends HttpServlet {
+  public void doPost(HttpServletRequest req, HttpServletResponse res) throws ServletException, IOException {
+    PrintWriter out = null;
+    try {
+      res.setContentType("text/html");
+      out = res.getWriter();
+      String uname = req.getParameter("uname");
+      String passwd = req.getParameter("passwd");
+      String phno = req.getParameter("phno");
+      String emailid = req.getParameter("email");
+      DBConnection.loadDriver();
+      out.println("Driver Loaded...");
+      Connection con = DBConnection.getConnection();
+      out.println("Connected to database");
+      PreparedStatement ps = con.prepareStatement("INSERT INTO lab_students VALUES(?,?,?,?)");
+      ps.setString(1, uname);
+      ps.setString(2, passwd);
+      ps.setString(3, phno);
+      ps.setString(4, emailid);
+      int n = ps.executeUpdate();
+      if (n > 0) {
+        out.println("1 row inserted");
+      }
+    } catch(Exception e) {
+      out.println("error: " + e.getMessage());
+    }
+  }
+}
