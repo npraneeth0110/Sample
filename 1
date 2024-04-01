@@ -1,0 +1,64 @@
+1a:
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Digital Clock</title>
+
+<style>
+  p{
+    color: blue;
+    text-align: center;
+  }
+</style>
+</head>
+<body>
+
+<div id="clock"></div>
+<p>Welcome to internal 1</p>
+
+<script>
+function updateClock() {
+  const now = new Date();
+  const hours = String(now.getHours()).padStart(2, '0');
+  const minutes = String(now.getMinutes()).padStart(2, '0');
+  const seconds = String(now.getSeconds()).padStart(2, '0');
+  const timeString = `${hours}:${minutes}:${seconds}`;
+  document.getElementById('clock').textContent = timeString;
+}
+
+setInterval(updateClock, 1000);
+
+updateClock();
+</script>
+
+</body>
+</html>
+
+1b:
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.PreparedStatement;
+import java.util.Scanner;
+
+public class Three {
+  public static void main(String[] args) throws Exception {
+    Class.forName("oracle.jdbc.driver.OracleDriver");
+    Connection con = DriverManager.getConnection("jdbc:oracle:thin:@localhost:1521:XE", "system", "tiger");
+
+    Scanner sc = new Scanner(System.in);
+    String uname = sc.next();
+    String new_phno = sc.next();
+
+    PreparedStatement ps = con.prepareStatement("UPDATE lab_students SET phno=? WHERE uname=?");
+    ps.setString(1, new_phno);
+    ps.setString(2, uname);
+
+    int n = ps.executeUpdate();
+
+    if (n >= 0) {
+      System.out.println("Successfully modified");
+    }
+  }
+}
