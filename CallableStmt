@@ -1,0 +1,5 @@
+CREATE OR REPLACE PROCEDURE updatePhone(uname IN VARCHAR2, phone IN VARCHAR2) AS
+BEGIN
+  UPDATE lab_students SET phno = phone WHERE uname = uname;
+END;
+/
